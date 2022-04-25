@@ -2,11 +2,15 @@
 simulations for FGR
 
 
-运行simulation.py
+杩愯simulation.py
 
-#simulation1 : fth作为自变量，单sd
-#simulation2 : c作为自变量，单sd
-#simulation3 : fth作为自变量，多sd
-#simulation4 : c作为自变量，多sd
-#simulation5 : sd数作为自变量
+#simulation1 : fth浣滀负鑷彉閲忥紝鍗晄d
+
+#simulation2 : c浣滀负鑷彉閲忥紝鍗晄d
+
+#simulation3 : fth浣滀负鑷彉閲忥紝澶歴d
+
+#simulation4 : c浣滀负鑷彉閲忥紝澶歴d
+
+#simulation5 : sd鏁颁綔涓鸿嚜鍙橀噺
 
