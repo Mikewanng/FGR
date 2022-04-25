@@ -14,3 +14,6 @@ simulations for FGR
 
 #simulation5 : sd数作为自变量
 
+qpass.py: alg1
+qleap.py: alg2
+hopspf.py: shortpathfirst
