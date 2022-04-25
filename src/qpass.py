@@ -112,58 +112,7 @@ class Qpath:
                     else:
                         self.q.put(cur)
                         break
-                """
-               
-        while True:
-            #拓扑转换为邻接表
-            ng=Udtp().topoljbf(g)
-            time_0=time.time()
-            pathset=Spfmc().spfmc1(ng,source,des)  #路径集cost递增
-            times+=time.time()-time_0
-            if len(pathset)==0:
-                break
-            costset=[]
-            deset=[]
-            #计算各路径的满足fth的最低cost
-            for path in pathset:
-                scost,tmpde=Pathf()._pathmincost(g,path,self.fth)
-                costset.append(scost)
-                deset.append(tmpde)
-            #找出最小cost的路径
-            mincost=costset[0]
-            for i in costset:
-                if i<mincost:
-                    mincost=i
-            li=pathset[costset.index(mincost)]
-            d_li=deset[costset.index(mincost)]
-            #判断路径上是否有足够资源
-            n=1
-            if Udtp().preudtppath(g,li,d_li):
-                self.path.append(li)
-                self.d.append(d_li)
-                #计算在该路径上消耗单位提纯次数的期望吞吐量
-                t_li=Etp().caletp(g,li,d_li)
-                #计算路径理论保真度
-                self.fi.append(Pathf()._epathf(g,li,d_li))
-                #计算该路径上所有资源的期望吞吐量
-                n=Etp().calpathsumth(g,li,d_li)
-                patht_li=n*t_li
-                if self.sumt+patht_li>=self.request: #该路径资源足以满足请求
-                    for i in range(1,n+1):
-                        if self.sumt+i*t_li>=self.request:
-                            self.th.append(i*t_li)
-                            self.sumt=self.sumt+i*t_li
-                            self.con.append(Etp().calactcon(d_li,i))
-                            break
-                    break
-                            
-                   
-                else:  #该路径总资源不满足需求，删去该路径重新查找
-                    self.th.append(patht_li)
-                    self.sumt=self.sumt+patht_li
-                    self.con.append(Etp().calactcon(d_li,n))
-            #更新topo
-            Udtp().udtppath(g,li,Etp().calactcon(d_li,n),self.fth)"""
+       
         return self.path,self.d,self.fi,self.con,self.th,self.sumt,times
        
 

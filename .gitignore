@@ -8,3 +8,4 @@
 /.vs/slnx.sqlite
 /.vs/VSWorkspaceState.json
 /src/__pycache__
+*.txt

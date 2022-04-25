@@ -7,7 +7,7 @@ from throughput import *
 from pud import  *
 import sys
 import copy,time
-
+#基于最短路径的单sd路由算法
 class Hspf:
     def __init__(self):
         self.path=[] #储存找到的路径

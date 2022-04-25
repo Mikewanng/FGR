@@ -1,4 +1,5 @@
-﻿class Net:
+﻿#骨干网拓扑
+class Net:
     def __init__(self):
         self.network=[['Vancouver', 'LosAngeles', 'SanFrancisco', 'LasVegas', 'SaltLakeCity', 'ElPaso', 'Dallas', 'Houston',
                  'OklahomaCity', 'Minneapolis', 'KansasCity', 'Denver', 'Chicago', 'Indianapolis', 'Detroit', 'StLouis',
