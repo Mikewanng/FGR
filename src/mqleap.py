@@ -17,7 +17,7 @@ class MQleap:
         self.con=[]#储存纠缠消耗数
         self.sumt=0 #网络总吞吐量
         self.q=PriorityQueue()
-    def alg3(self,network,sdset,fthset,reqset):
+    def alg3(self,network,sdset,fthset,reqset,alpha=0,beta=1):
         self.network=network
         """vnetwork=Vtopo().creatbasicvtopo(network)  #预处理拓扑，转换为合适的格式
         newnetwork=Vtopo().creatvtopo(vnetwork)"""
@@ -79,7 +79,7 @@ class MQleap:
                 #计算综合Utility
                 uti=[]
                 for i in range(len(pathfreed)):
-                    uti.append(Cpathfd().caluti(pathfreed[i],conset[i]))
+                    uti.append(Cpathfd().caluti(pathfreed[i],conset[i],alpha,beta))
                 #放入优先队列
                 for i in range(len(pathset)):
                     self.q.put((uti[i],[cur[0],pathset[i],conset[i],thset[i],dset[i],fiset[i]]))

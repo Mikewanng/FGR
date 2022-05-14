@@ -12,7 +12,7 @@ import numpy as np
 
 #算法变量设置
 #总仿真次数
-def Sd(count=1,x=np.arange(19,20),topology_fidelity_mode=1,fth = 0.7,sumreq = 100,link_capacity=50,save_mode = 1,read_mode = 0):
+def Sd(count=1,x=np.arange(19,20),topology_fidelity_mode=1,fth = 0.7,sumreq = 100,link_capacity=50,save_mode = 1,read_mode = 0,alpha=0,beta=1):
     """
     count=1
     #模式0代表重新生成，模式1代表读取之前保存的链路保真度数值
@@ -95,7 +95,7 @@ def Sd(count=1,x=np.arange(19,20),topology_fidelity_mode=1,fth = 0.7,sumreq = 10
                 reqset.append(sumreq//sdnum)
         
             time_0=time.time()
-            path,th,fi,d,con,sumt=Mhopspf().alg5(copy.deepcopy(g),sdset,fiset,reqset)
+            path,th,fi,d,con,sumt=Mhopspf().alg5(copy.deepcopy(g),sdset,fiset,reqset,alpha,beta)
             print('time of alg5 :',time.time()-time_0,'\n')
             timeh[j]+=time.time()-time_0
             tmpsf=0
@@ -117,7 +117,7 @@ def Sd(count=1,x=np.arange(19,20),topology_fidelity_mode=1,fth = 0.7,sumreq = 10
                 avefhopcount[j]+=tmpsf
 
             time_1=time.time()
-            path1,th1,fi1,d1,con1,sumt1=MQpath().alg4(copy.deepcopy(g),sdset,fiset,reqset)
+            path1,th1,fi1,d1,con1,sumt1=MQpath().alg4(copy.deepcopy(g),sdset,fiset,reqset,alpha,beta)
             print('time of alg4 :',time.time()-time_1,'\n')
             time1[j]+=time.time()-time_1
             tmpsf1=0
@@ -138,7 +138,7 @@ def Sd(count=1,x=np.arange(19,20),topology_fidelity_mode=1,fth = 0.7,sumreq = 10
                 consualg1[j]+=tmpsc1
                 avefalg1[j]+=tmpsf1
             time_2=time.time()
-            path2,th2,fi2,d2,con2,sumt2=MQleap().alg3(copy.deepcopy(g),sdset,fiset,reqset)
+            path2,th2,fi2,d2,con2,sumt2=MQleap().alg3(copy.deepcopy(g),sdset,fiset,reqset,alpha,beta)
             print('time of alg3 :',time.time()-time_2,'\n')
             time2[j]+=time.time()-time_2
             tmpsf2=0

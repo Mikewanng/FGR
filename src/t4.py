@@ -14,7 +14,7 @@ import networkx as nx
 
 #算法变量设置
 #总仿真次数
-def MultiSdC(count=10,x=np.arange(10,91,10),sumreq = 400,fth = 0.7,sdnum = 4,topology_fidelity_mode=0, read_random_SDpair = 0,random_topology = 0,random_topology_mode=0,random_topology_nodes_num = 10):
+def MultiSdC(count=10,x=np.arange(10,91,10),sumreq = 400,fth = 0.7,sdnum = 4,topology_fidelity_mode=0, read_random_SDpair = 0,random_topology = 0,random_topology_mode=0,random_topology_nodes_num = 10,alpha=0,beta=1):
     
     """
     count=10
@@ -230,7 +230,7 @@ def MultiSdC(count=10,x=np.arange(10,91,10),sumreq = 400,fth = 0.7,sdnum = 4,top
             newg=Vtopo().changec(copy.deepcopy(g),x[j])
             time_0=time.process_time_ns()
             if enable_Hspf == 1:
-                path,th,fi,d,con,sumt=Mhopspf().alg5(copy.deepcopy(newg),sdset,fiset,reqset)
+                path,th,fi,d,con,sumt=Mhopspf().alg5(copy.deepcopy(newg),sdset,fiset,reqset,alpha,beta)
                 print('time of alg5 :',time.process_time_ns()-time_0,'\n')
                 tmpsf=0
                 tmpsc=0
@@ -253,7 +253,7 @@ def MultiSdC(count=10,x=np.arange(10,91,10),sumreq = 400,fth = 0.7,sdnum = 4,top
             time_1=time.process_time_ns()
             if enable_alg1 == 1:
                 # 基于算法1的最优搜索算法，设计的多SD Pair路由算法
-                path1,th1,fi1,d1,con1,sumt1=MQpath().alg4(copy.deepcopy(newg),sdset,fiset,reqset)
+                path1,th1,fi1,d1,con1,sumt1=MQpath().alg4(copy.deepcopy(newg),sdset,fiset,reqset,alpha,beta)
                 print('time of alg4 :',time.process_time_ns()-time_1,'\n')
                 time_1_total += time.process_time_ns() - time_1
                 tmpsf1=0
@@ -276,7 +276,7 @@ def MultiSdC(count=10,x=np.arange(10,91,10),sumreq = 400,fth = 0.7,sdnum = 4,top
             time_2=time.process_time_ns()
             if enable_alg2 == 1:
                 # 基于算法2的最优搜索算法，设计的多SD Pair路由算法
-                path2,th2,fi2,d2,con2,sumt2=MQleap().alg3(copy.deepcopy(newg),sdset,fiset,reqset)
+                path2,th2,fi2,d2,con2,sumt2=MQleap().alg3(copy.deepcopy(newg),sdset,fiset,reqset,alpha,beta)
                 print('time of alg3 :',time.process_time_ns()-time_2,'\n')
                 time_2_total += time.process_time_ns()-time_2
                 tmpsf2=0
