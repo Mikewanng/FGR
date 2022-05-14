@@ -10,14 +10,14 @@ from t5 import *
 #simulation5 : sd数作为自变量
 
 #仿真运行选择,0为不运行。
-sim1=1  
+sim1=1
 sim2=0
 sim3=0
 sim4=0
 sim5=0
 #参数设置
 if sim1==1:
-	s1_count=100 #运行次数
+	s1_count=10 #运行次数
 	s1_x=np.arange(0.55,0.95,0.05) #fth区间
 	s1_topology_fidelity_mode=0 #模式0代表重新生成，模式1代表读取之前保存的链路保真度数值
 	s1_nrof_requests=10000 #单S-Dpair的请求connection数量
@@ -39,7 +39,7 @@ if sim2==1:
 	s2_random_topology_nodes_num =5 #随机拓扑节点数量
 if sim3==1:
 	s3_count=1 #运行次数
-	s3_x=np.arange(100,1000,100) #链路容量区间
+	s3_x=np.arange(0.55,0.95,0.05) #fth区间
 	s3_sumreq=400 #总需求
 	s3_link_capacity=50 #链路容量设置
 	s3_norfSD_Pair=4 #SD对数量

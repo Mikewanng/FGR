@@ -53,7 +53,7 @@ class Pathf:
 		return sumcost,de
 	def _pathmincost1(self,g,path,fth):#计算该路径满足fth的cost，以及提纯决定
 		de=[]#初始化提纯决定
-		flag=0.77081
+		flag=0.743
 		pathf=[]
 		for i in range(len(path)-1):
 			de.append(0)

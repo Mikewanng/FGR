@@ -1,7 +1,7 @@
 ﻿import numpy as np
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
-from qpass import *
+from qpath import *
 from qleap import *
 from alg2k import *
 from hopspf import *
@@ -194,7 +194,7 @@ def SingleSdC(count=10,x=np.arange(100,1000,100),topology_fidelity_mode=0,nrof_r
         
             time_1=time.time()
             if enable_alg1 == 1:
-                path1,d1,fi1,con1,th1,sumt1,times1=Qpath().alg1(copy.deepcopy(g),sou,des,reqf,nrof_requests,0,3)
+                path1,d1,fi1,con1,th1,sumt1,times1=Qpath().alg1(copy.deepcopy(g),sou,des,reqf,nrof_requests,alg1_mode,3)
                 #print(path1,d1,fi1,con1,th1,sumt1)
                 time1[j]+=times1
                 tmpsf1=0

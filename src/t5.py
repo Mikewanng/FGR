@@ -1,4 +1,4 @@
-﻿from mqpass import *
+﻿from mqpath import *
 from mqleap import *
 from mhopspf import *
 import matplotlib.pyplot as plt
@@ -117,7 +117,7 @@ def Sd(count=1,x=np.arange(19,20),topology_fidelity_mode=1,fth = 0.7,sumreq = 10
                 avefhopcount[j]+=tmpsf
 
             time_1=time.time()
-            path1,th1,fi1,d1,con1,sumt1=MQpass().alg4(copy.deepcopy(g),sdset,fiset,reqset)
+            path1,th1,fi1,d1,con1,sumt1=MQpath().alg4(copy.deepcopy(g),sdset,fiset,reqset)
             print('time of alg4 :',time.time()-time_1,'\n')
             time1[j]+=time.time()-time_1
             tmpsf1=0

@@ -1,4 +1,4 @@
-﻿from qpass import *
+﻿from qpath import *
 from network import *
 from patharrange import *
 from pathfd import *
@@ -6,7 +6,7 @@ from queue import PriorityQueue
 import sys
 import copy
 #基于算法1的最优搜索算法，设计的多SD Pair路由算法
-class MQpass:
+class MQpath:
     def __init__(self):
         
         self.path=[] #储存各sd对找到的路径

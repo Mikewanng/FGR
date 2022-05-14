@@ -1,7 +1,7 @@
 ﻿import numpy as np
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
-from qpass import *
+from qpath import *
 from qleap import *
 from alg2k import *
 from hopspf import *
@@ -44,6 +44,7 @@ def SingleSdFth(count=10,x=np.arange(0.55,0.95,0.05),topology_fidelity_mode=0,nr
     graph_topology_file_name1='random_topology_nodes_with_nrof_nodes_'+str(random_topology_nodes_num)+'.txt'
     graph_topology_file_name2='random_topology_edges_with_nrof_nodes_'+str(random_topology_nodes_num)+'.txt'
     filename='Single_SDPair_vs_Fidelity.txt'
+    print('result saved in'+filename)
     fp = open(filename, 'w')
     #先写入数据标题
     utput_label = 'fth      '
@@ -170,7 +171,7 @@ def SingleSdFth(count=10,x=np.arange(0.55,0.95,0.05),topology_fidelity_mode=0,nr
 
             if enable_Hspf == 1:
                 #path,d,fi,con,th,sumt,times=Hspf().hspf(copy.deepcopy(g),sou,des,x[j],nrof_requests)
-                path,d,fi,con,th,sumt,times=Qpath().alg1(copy.deepcopy(g),sou,des,x[j],nrof_requests,1,1)
+                path,d,fi,con,th,sumt,times=Hspf().hspf(copy.deepcopy(g),sou,des,x[j],nrof_requests)
                 #print(path,d,fi,con,th,sumt)
                 #if path !=[]:
                     #print(path,d)
@@ -195,27 +196,10 @@ def SingleSdFth(count=10,x=np.arange(0.55,0.95,0.05),topology_fidelity_mode=0,nr
         
             time_1=time.time()
             if enable_alg1 == 1:
-                path1,d1,fi1,con1,th1,sumt1,times1=Qpath().alg1(copy.deepcopy(g),sou,des,x[j],nrof_requests,1,3)
+                path1,d1,fi1,con1,th1,sumt1,times1=Qpath().alg1(copy.deepcopy(g),sou,des,x[j],nrof_requests,alg1_mode,3)
                 #print(path1,d1,fi1,con1,th1,sumt1)
-                """  
-                if (path1,d1,fi1,con1,th1,sumt1) !=(path,d,fi,con,th,sumt):
-                    print('********************************************')
-                    time.sleep(20)
-                    path,d,fi,con,th,sumt,times=Alg1().alg1(copy.deepcopy(g),sou,des,x[j],nrof_requests,1,0)
-                         
-                print('********************************************')
-                    time.sleep(20)
-            
-                if path!=path1:
-                    graph_topology_save_name1 = graph_topology_debug
-                    graph_topology_file1 = open(graph_topology_save_name1, 'w')
-                    graph_topology_save_name2 = graph_topology_file_name2
-                    graph_topology_file2 = open(graph_topology_save_name2, 'w')
-                    for index in range(len(nodes)):
-                        graph_topology_file1.write(str(nodes[index]) + '\n')
-                    for index in range(len(edges)):
-                        graph_topology_file2.write(str(edges[index]) + '\n')
-                        """
+                 
+                
                 time1[j]+=times1
                 tmpsf1=0
                 tmpsc1=0
@@ -256,9 +240,9 @@ def SingleSdFth(count=10,x=np.arange(0.55,0.95,0.05),topology_fidelity_mode=0,nr
 
 
 
-    print(stphspf)
-    print(stpalg1)
-    print(stpalg2)
+    #print(stphspf)
+    #print(stpalg1)
+    #print(stpalg2)
 
 
     for i in range(len(x)):
@@ -305,7 +289,7 @@ def SingleSdFth(count=10,x=np.arange(0.55,0.95,0.05),topology_fidelity_mode=0,nr
         #fp.write(str(x[i])+'    '+str(stphspf[i])+'    '+str(stpalg1[i])+'    '+str(stpalg2[i])+'    '+str(stpalg2k[i])+'    '+str(stpalg2k3[i])+'    '+str(stpalg2k4[i])+'    '+str(stpalg2k5[i])+'    '+str(avefhopcount[i])+'    '+str(avefalg1[i])+'    '+str(avefalg2[i])+'    '+str(avefalg2k[i])+'    '+str(avefalg2k3[i])+'    '+str(avefalg2k4[i])+'    '+str(avefalg2k5[i])+'    '+str(consuhopcount[i])+'    '+str(consualg1[i])+'    '+str(consualg2[i])+'    '+str(consualg2k[i])+'    '+str(consualg2k3[i])+'    '+str(consualg2k4[i])+'    '+str(consualg2k5[i])+'    '+str(timeh[i])+'    '+str(time1[i])+'    '+str(time2[i])+'    '+str(time2k[i])+'    '+str(time2k3[i])+'    '+str(time2k4[i])+'    '+str(time2k5[i])+'\n')
         fp.write(output_result)
     fp.close()
-    print(countf)
+    #print(countf)
     fig = plt.figure()
     plt.plot(x,stphspf,color='red')
     plt.plot(x,stpalg1,color='green')

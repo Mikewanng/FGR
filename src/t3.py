@@ -1,4 +1,4 @@
-from mqpass import *
+from mqpath import *
 from mqleap import *
 from mhopspf import *
 import matplotlib.pyplot as plt
@@ -258,7 +258,7 @@ def MultiSdFth(count=1,x = np.arange(0.55, 0.95, 0.05),sumreq = 400,link_capacit
 
             time_1 = time.time()
             if enable_alg1 == 1:
-                path1, th1, fi1, d1, con1, sumt1 = MQpass().alg4(copy.deepcopy(g), sdset, fiset, reqset)
+                path1, th1, fi1, d1, con1, sumt1 = MQpath().alg4(copy.deepcopy(g), sdset, fiset, reqset)
                 print('time of alg4 :', time.time() - time_1, '\n')
                 time1[j] += time.time() - time_1
                 tmpsf1 = 0
