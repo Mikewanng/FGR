@@ -103,7 +103,7 @@ class Qpath:
                                         self.sumt=self.sumt+i*t_li
                                         self.con.append(Etp().calactcon(cur[1][1],i))
                                         break
-                                break
+                                return self.path,self.d,self.fi,self.con,self.th,self.sumt,times
                             else:  #该路径总资源不满足需求，删去该路径重新查找
                                 self.th.append(patht_li)
                                 self.sumt=self.sumt+patht_li

@@ -38,7 +38,7 @@ def SingleSdC(count=10,x=np.arange(100,1000,100),topology_fidelity_mode=0,nrof_r
     random_topology_nodes_num = 10
     """
     link_capacity=50
-    enable_Hspf=1#基于跳数的
+    enable_Hspf=0#基于跳数的
     enable_alg1=1
     enable_alg2=1
     start_time=time.time()

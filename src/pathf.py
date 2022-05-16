@@ -251,6 +251,11 @@ class Pathf:
 		return f
 	def prejudge(self,g,path,fth): #提前判断
 		pathf=[]
+		#判断是否依然联通
+		for i in range(len(path)-1):
+			if g[path[i]][path[i+1]]._isconnected==False:
+				return False
+		#判断最大保真度能否满足要求
 		for i in range(len(path)-1):
 			pathf.append(g[path[i]][path[i+1]].ftable[-1][0])
 		if self.pathfs(pathf)<fth:

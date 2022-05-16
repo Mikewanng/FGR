@@ -42,7 +42,7 @@ def MultiSdFth(count=1,x = np.arange(0.55, 0.95, 0.05),sumreq = 400,link_capacit
     #随机生成的SDpair记录文件
     Multiple_SDpair_save_name=str(norfSD_Pair)+'SDpairs_record'+'.txt'
     
-    enable_Hspf=1#基于跳数的
+    enable_Hspf=0#基于跳数的
     enable_alg1=1
     enable_alg2=1
     start_time=time.time()

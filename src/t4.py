@@ -45,7 +45,7 @@ def MultiSdC(count=10,x=np.arange(10,91,10),sumreq = 400,fth = 0.7,sdnum = 4,top
     
     Multiple_SDpair_save_name=str(sdnum)+'SDpairs_record'+'.txt'
     link_capacity = 50
-    enable_Hspf=1#基于跳数的
+    enable_Hspf=0#基于跳数的
     enable_alg1=1
     enable_alg2=1
     start_time=time.time()

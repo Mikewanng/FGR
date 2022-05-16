@@ -29,7 +29,9 @@ class Udtp:#拓扑更新
     def udtppathc(self,g,path,con): #去除topo上路径消耗的资源
         for i in range(len(path)-1):
             g[path[i]][path[i+1]]._c-=con[i]
+            g[path[i+1]][path[i]]._c-=con[i]
             if g[path[i]][path[i+1]]._c==0:
+                g[path[i]][path[i+1]].dellink()
                 g[path[i]][path[i+1]].dellink()
 
     def udtppath(self,g,path,con,fth): #去除一条路径的资源

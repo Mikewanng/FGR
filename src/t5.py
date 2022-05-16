@@ -95,7 +95,7 @@ def Sd(count=1,x=np.arange(19,20),topology_fidelity_mode=1,fth = 0.7,sumreq = 10
                 reqset.append(sumreq//sdnum)
         
             time_0=time.time()
-            path,th,fi,d,con,sumt=Mhopspf().alg5(copy.deepcopy(g),sdset,fiset,reqset,alpha,beta)
+            """path,th,fi,d,con,sumt=Mhopspf().alg5(copy.deepcopy(g),sdset,fiset,reqset,alpha,beta)
             print('time of alg5 :',time.time()-time_0,'\n')
             timeh[j]+=time.time()-time_0
             tmpsf=0
@@ -115,7 +115,7 @@ def Sd(count=1,x=np.arange(19,20),topology_fidelity_mode=1,fth = 0.7,sumreq = 10
                 stphspf[j]+=sumt
                 consuhopcount[j]+=tmpsc
                 avefhopcount[j]+=tmpsf
-
+            """
             time_1=time.time()
             path1,th1,fi1,d1,con1,sumt1=MQpath().alg4(copy.deepcopy(g),sdset,fiset,reqset,alpha,beta)
             print('time of alg4 :',time.time()-time_1,'\n')
