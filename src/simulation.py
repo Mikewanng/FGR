@@ -17,9 +17,9 @@ sim4=0
 sim5=0
 #参数设置
 if sim1==1:
-	s1_count=1 #运行次数
+	s1_count=1000 #运行次数
 	s1_x=np.arange(0.55,0.95,0.05) #fth区间
-	s1_topology_fidelity_mode=0 #模式0代表重新生成，模式1代表读取之前保存的链路保真度数值
+	s1_topology_fidelity_mode=1 #模式0代表重新生成，模式1代表读取之前保存的链路保真度数值
 	s1_nrof_requests=50 #单S-Dpair的请求connection数量
 	s1_alg1_mode=1 #Alg1的运行模式，BFS搜索为0，k-shortest为1
 	s1_link_capacity=50 #链路容量设置
@@ -28,52 +28,52 @@ if sim1==1:
 	s1_random_topology_nodes_num =5 #随机拓扑节点数量
 
 if sim2==1:
-	s2_count=10 #运行次数
-	s2_x=np.arange(100,1000,100) #链路容量区间
-	s2_topology_fidelity_mode=0 #模式0代表重新生成，模式1代表读取之前保存的链路保真度数值
-	s2_nrof_requests=10000 #单S-Dpair的请求connection数量
+	s2_count=1000 #运行次数
+	s2_x=np.arange(10,100,10) #链路容量区间
+	s2_topology_fidelity_mode=1 #模式0代表重新生成，模式1代表读取之前保存的链路保真度数值
+	s2_nrof_requests=100 #单S-Dpair的请求connection数量
 	s2_alg1_mode=1 #Alg1的运行模式，BFS搜索为0，k-shortest为1
 	s2_req_fth=0.7 #请求fth设置
 	s2_random_topology = 0 # 随机拓扑设置，1代表开启
 	s2_random_topology_mode=0 #0代表每次生成随机的，1代表读取文件中的拓扑
 	s2_random_topology_nodes_num =5 #随机拓扑节点数量
 if sim3==1:
-	s3_count=5 #运行次数
+	s3_count=1000 #运行次数
 	s3_x=np.arange(0.55,0.95,0.05) #fth区间
-	s3_sumreq=400 #总需求
+	s3_sumreq=200 #总需求
 	s3_link_capacity=50 #链路容量设置
-	s3_norfSD_Pair=2 #SD对数量
-	s3_topology_fidelity_mode=0 #模式0代表重新生成，模式1代表读取之前保存的链路保真度数值
+	s3_norfSD_Pair=4 #SD对数量
+	s3_topology_fidelity_mode=1 #模式0代表重新生成，模式1代表读取之前保存的链路保真度数值
 	s3_read_random_SDpair=0 #是否通过读取SDpair对，以保证仿真的一致性
 	s3_random_topology = 0 # 随机拓扑设置，1代表开启
 	s3_random_topology_mode=0 #0代表每次生成随机的，1代表读取文件中的拓扑
 	s3_random_topology_nodes_num =5 #随机拓扑节点数量
-	s3_alpha=0
-	s3_beta=1
+	s3_alpha=0.5
+	s3_beta=0.5
 if sim4==1:
-	s4_count=3 #运行次数
+	s4_count=1000 #运行次数
 	s4_x=np.arange(10,91,10) #链路容量区间
-	s4_sumreq=400 #总需求
+	s4_sumreq=200 #总需求
 	s4_req_fth=0.7 #请求fth设置
-	s4_norfSD_Pair=2 #SD对数量
-	s4_topology_fidelity_mode=0 #模式0代表重新生成，模式1代表读取之前保存的链路保真度数值
+	s4_norfSD_Pair=4 #SD对数量
+	s4_topology_fidelity_mode=1 #模式0代表重新生成，模式1代表读取之前保存的链路保真度数值
 	s4_read_random_SDpair=0 #是否通过读取SDpair对，以保证仿真的一致性
 	s4_random_topology = 0 # 随机拓扑设置，1代表开启
 	s4_random_topology_mode=0 #0代表每次生成随机的，1代表读取文件中的拓扑
 	s4_random_topology_nodes_num =5 #随机拓扑节点数量
-	s4_alpha=0
-	s4_beta=1
+	s4_alpha=0.5
+	s4_beta=0.5
 if sim5==1:
-	s5_count=1 #运行次数
-	s5_x=np.arange(19,20) #sd数量区间
+	s5_count=1000 #运行次数
+	s5_x=np.arange(2,6) #sd数量区间
 	s5_topology_fidelity_mode=1 #模式0代表重新生成，模式1代表读取之前保存的链路保真度数值
 	s5_fth = 0.7 #端到端保真度阈值
 	s5_sumreq = 100 #总请求连接数量
 	s5_link_capacity=50 #链路容量设置
 	s5_save_mode = 1 #保存此次随机生成的S-0 Pair
 	s5_read_mode = 0 #读取之前随机生成的S-D Pair
-	s5_alpha=0
-	s5_beta=1
+	s5_alpha=0.5
+	s5_beta=0.5
 
 
 #仿真运行
