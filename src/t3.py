@@ -42,7 +42,7 @@ def MultiSdFth(count=1,x = np.arange(0.55, 0.95, 0.05),sumreq = 400,link_capacit
     #随机生成的SDpair记录文件
     Multiple_SDpair_save_name=str(norfSD_Pair)+'SDpairs_record'+'.txt'
     
-    enable_Hspf=1#基于跳数的
+    enable_Hspf=0#基于跳数的
     enable_alg1=1
     enable_alg2=1
     start_time=time.time()
@@ -53,7 +53,7 @@ def MultiSdFth(count=1,x = np.arange(0.55, 0.95, 0.05),sumreq = 400,link_capacit
     filename = 'Multiple_SDPairs_vs_Fidelity_Threshold.txt'
     fp = open(filename, 'w')
     fp.write(
-        'fth    tphopcount    tpalg1    tpalg2    avefhopcount    avefalg1    avefalg2    consuhopcount    consualg1    consualg2    timehop    timealg1    timealg2\n')
+        'fth    tphopcount    tpalg1    tpalg2    avefhopcount    avefalg1    avefalg2    consuhopcount    consualg1    consualg2    avepathlengthhopcount    avepathlengthalg1    avepathlengthalg2    aveperconhopcount    aveperconalg1    aveperconalg2    timehop    timealg1    timealg2\n')
 
     stphspf = [0] * len(x)
     stpalg1 = [0] * len(x)
@@ -66,6 +66,14 @@ def MultiSdFth(count=1,x = np.arange(0.55, 0.95, 0.05),sumreq = 400,link_capacit
     consuhopcount = [0] * len(x)
     consualg1 = [0] * len(x)
     consualg2 = [0] * len(x)
+    #平均路径长度
+    avepathlengthhopcount=[0] * len(x)
+    avepathlengthalg1=[0] * len(x)
+    avepathlengthalg2=[0] * len(x)
+    #平均单个连接消耗
+    aveperconhopcount=[0] * len(x)
+    aveperconalg1=[0] * len(x)
+    aveperconalg2=[0] * len(x)
 
     timeh = [0] * len(x)
     time1 = [0] * len(x)
@@ -241,16 +249,22 @@ def MultiSdFth(count=1,x = np.arange(0.55, 0.95, 0.05),sumreq = 400,link_capacit
                 tmpsf = 0
                 tmpsc = 0
                 tmp_count = 0
+                tmp_pathlen = 0
+                tmp_percon = 0
                 for a in range(len(con)):  # 计算总消耗纠缠数、计算总f
                     for b in range(len(con[a])):
-                        for c in con[a][b]:
-                            tmpsc += c
+                        for c in range(len(con[a][b])):
+                            tmpsc += con[a][b][c]
+                            tmp_percon += d[a][b][c]+1
                         if fi[a][b] > 0:
                             tmp_count += 1
                             tmpsf += fi[a][b]
-                # 计算平均f
+                            tmp_pathlen += len(path[a][b])-1
+                # 计算平均f,平均路径长度及路径消耗
                 if tmp_count > 0:
                     tmpsf = tmpsf / tmp_count
+                    avepathlengthhopcount[j] = tmp_pathlen / tmp_count
+                    aveperconhopcount[j] = tmp_percon / tmp_count
                 if tmpsf > 0:
                     stphspf[j] += sumt
                     consuhopcount[j] += tmpsc
@@ -264,16 +278,22 @@ def MultiSdFth(count=1,x = np.arange(0.55, 0.95, 0.05),sumreq = 400,link_capacit
                 tmpsf1 = 0
                 tmpsc1 = 0
                 tmp_count = 0
+                tmp_pathlen = 0
+                tmp_percon = 0
                 for a in range(len(con1)):  # 计算总消耗纠缠数、计算总f
                     for b in range(len(con1[a])):
-                        for c in con1[a][b]:
-                            tmpsc1 += c
+                        for c in range(len(con1[a][b])):
+                            tmpsc1 += con1[a][b][c]
+                            tmp_percon += d1[a][b][c]+1
                         if fi1[a][b] > 0:
                             tmp_count += 1
                             tmpsf1 += fi1[a][b]
+                            tmp_pathlen += len(path1[a][b])-1
                 # 计算平均f
                 if tmp_count > 0:
                     tmpsf1 = tmpsf1 / tmp_count
+                    avepathlengthalg1[j] += tmp_pathlen / tmp_count
+                    aveperconalg1[j] += tmp_percon / tmp_count
                 if tmpsf1 > 0:
                     stpalg1[j] += sumt1
                     consualg1[j] += tmpsc1
@@ -287,16 +307,22 @@ def MultiSdFth(count=1,x = np.arange(0.55, 0.95, 0.05),sumreq = 400,link_capacit
                 tmpsf2 = 0
                 tmpsc2 = 0
                 tmp_count = 0
+                tmp_pathlen = 0
+                tmp_percon = 0
                 for a in range(len(con2)):  # 计算总消耗纠缠数、计算总fi
                     for b in range(len(con2[a])):
-                        for c in con2[a][b]:
-                            tmpsc2 += c
+                        for c in range(len(con2[a][b])):
+                            tmpsc2 += con2[a][b][c]
+                            tmp_percon += d2[a][b][c]+1
                         if fi2[a][b] > 0:
                             tmp_count += 1
                             tmpsf2 += fi2[a][b]
+                            tmp_pathlen += len(path2[a][b])-1
                 # 计算平均f
                 if tmp_count > 0:
                     tmpsf2 = tmpsf2 / tmp_count
+                    avepathlengthalg2[j] += tmp_pathlen / tmp_count
+                    aveperconalg2[j] += tmp_percon / tmp_count
                 if tmpsf2 > 0:
                     stpalg2[j] += sumt2
                     consualg2[j] += tmpsc2
@@ -312,10 +338,19 @@ def MultiSdFth(count=1,x = np.arange(0.55, 0.95, 0.05),sumreq = 400,link_capacit
         consuhopcount[i] /= count
         consualg1[i] /= count
         consualg2[i] /= count
-        fp.write(str(x[i]) + '    ' + str(stphspf[i]) + '    ' + str(stpalg1[i]) + '    ' + str(stpalg2[i]) + '    ' + str(
-            avefhopcount[i]) + '    ' + str(avefalg1[i]) + '    ' + str(avefalg2[i]) + '    ' + str(
-            consuhopcount[i]) + '    ' + str(consualg1[i]) + '    ' + str(consualg2[i]) + '    ' + str(
-            timeh[i]) + '    ' + str(time1[i]) + '    ' + str(time2[i]) + '\n')
+        avepathlengthhopcount[i] /= count
+        avepathlengthalg1[i] /= count
+        avepathlengthalg2[i] /= count
+        aveperconhopcount[i] /= count
+        aveperconalg1[i] /= count
+        aveperconalg2[i] /= count
+
+        fp.write(str(x[i]) + '    ' + str(stphspf[i]) + '    ' + str(stpalg1[i]) + '    ' + str(stpalg2[i]) + '    ' + 
+                 str(avefhopcount[i]) + '    ' + str(avefalg1[i]) + '    ' + str(avefalg2[i]) + '    ' + 
+                 str(consuhopcount[i]) + '    ' + str(consualg1[i]) + '    ' + str(consualg2[i]) + '    ' + 
+                 str(avepathlengthhopcount[i]) + '    ' + str(avepathlengthalg1[i]) + '    ' + str(avepathlengthalg2[i]) + '    ' + 
+                 str(aveperconhopcount[i]) + '    ' + str(aveperconalg1[i]) + '    ' + str(aveperconalg2[i]) + '    ' + 
+                 str(timeh[i]) + '    ' + str(time1[i]) + '    ' + str(time2[i]) + '\n')
 
     fp.close()
     fig = plt.figure()

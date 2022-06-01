@@ -45,7 +45,7 @@ def MultiSdC(count=10,x=np.arange(10,91,10),sumreq = 400,fth = 0.7,sdnum = 4,top
     
     Multiple_SDpair_save_name=str(sdnum)+'SDpairs_record'+'.txt'
     link_capacity = 50
-    enable_Hspf=1#基于跳数的
+    enable_Hspf=0#基于跳数的
     enable_alg1=1
     enable_alg2=1
     start_time=time.time()
@@ -57,18 +57,32 @@ def MultiSdC(count=10,x=np.arange(10,91,10),sumreq = 400,fth = 0.7,sdnum = 4,top
     time_2_total = 0
     filename='Multiple_SDPairs_vs_Link_Capacity.txt'
     fp=open(filename,'w')
-    fp.write('fth    tphopcount    tpalg1    tpalg2    avefhopcount    avefalg1    avefalg2    consuhopcount    consualg1    consualg2\n')
-    stphspf=[0]*len(x)
-    stpalg1=[0]*len(x)
-    stpalg2=[0]*len(x)
+    fp.write(
+        'fth    tphopcount    tpalg1    tpalg2    avefhopcount    avefalg1    avefalg2    consuhopcount    consualg1    consualg2    avepathlengthhopcount    avepathlengthalg1    avepathlengthalg2    aveperconhopcount    aveperconalg1    aveperconalg2    timehop    timealg1    timealg2\n')
+    
+    stphspf = [0] * len(x)
+    stpalg1 = [0] * len(x)
+    stpalg2 = [0] * len(x)
 
-    avefhopcount=[0]*len(x)
-    avefalg1=[0]*len(x)
-    avefalg2=[0]*len(x)
+    avefhopcount = [0] * len(x)
+    avefalg1 = [0] * len(x)
+    avefalg2 = [0] * len(x)
 
-    consuhopcount=[0]*len(x)
-    consualg1=[0]*len(x)
-    consualg2=[0]*len(x)
+    consuhopcount = [0] * len(x)
+    consualg1 = [0] * len(x)
+    consualg2 = [0] * len(x)
+    #平均路径长度
+    avepathlengthhopcount=[0] * len(x)
+    avepathlengthalg1=[0] * len(x)
+    avepathlengthalg2=[0] * len(x)
+    #平均单个连接消耗
+    aveperconhopcount=[0] * len(x)
+    aveperconalg1=[0] * len(x)
+    aveperconalg2=[0] * len(x)
+
+    timeh = [0] * len(x)
+    time1 = [0] * len(x)
+    time2 = [0] * len(x)
     ####################生成随机拓扑，返回nodes[],edges[],positions[]##################
     ##a = alpha, b = beta
     def create_random_topology(nodes_num=50, a=0.06, b=1):##a = alpha, b = beta
@@ -226,89 +240,119 @@ def MultiSdC(count=10,x=np.arange(10,91,10),sumreq = 400,fth = 0.7,sdnum = 4,top
 
         for j in range(len(x)):
         
-            print(x[j])
+            print('c=',x[j])
             newg=Vtopo().changec(copy.deepcopy(g),x[j])
-            time_0=time.process_time_ns()
+            time_0=time.time()
             if enable_Hspf == 1:
-                path,th,fi,d,con,sumt=Mhopspf().alg5(copy.deepcopy(newg),sdset,fiset,reqset,alpha,beta)
-                print('time of alg5 :',time.process_time_ns()-time_0,'\n')
-                tmpsf=0
-                tmpsc=0
-                tmp_count=0
-                for a in range(len(con)):#计算总消耗纠缠数、计算总f
+                path, th, fi, d, con, sumt = Mhopspf().alg5(copy.deepcopy(newg), sdset, fiset, reqset,alpha,beta)
+                print('time of alg5 :', time.time() - time_0, '\n')
+                timeh[j] += time.time() - time_0
+                tmpsf = 0
+                tmpsc = 0
+                tmp_count = 0
+                tmp_pathlen = 0
+                tmp_percon = 0
+                for a in range(len(con)):  # 计算总消耗纠缠数、计算总f
                     for b in range(len(con[a])):
-                        for c in con[a][b]:
-                            tmpsc+=c
-                        if fi[a][b]>0:
-                            tmp_count+=1
-                            tmpsf+=fi[a][b]
-                #计算平均f
-                if tmp_count>0:
-                    tmpsf=tmpsf/tmp_count
-                if tmpsf>0:
-                    stphspf[j]+=sumt
-                    consuhopcount[j]+=tmpsc
-                    avefhopcount[j]+=tmpsf
+                        for c in range(len(con[a][b])):
+                            tmpsc += con[a][b][c]
+                            tmp_percon += d[a][b][c]+1
+                        if fi[a][b] > 0:
+                            tmp_count += 1
+                            tmpsf += fi[a][b]
+                            tmp_pathlen += len(path[a][b])-1
+                # 计算平均f,平均路径长度及路径消耗
+                if tmp_count > 0:
+                    tmpsf = tmpsf / tmp_count
+                    avepathlengthhopcount[j] = tmp_pathlen / tmp_count
+                    aveperconhopcount[j] = tmp_percon / tmp_count
+                if tmpsf > 0:
+                    stphspf[j] += sumt
+                    consuhopcount[j] += tmpsc
+                    avefhopcount[j] += tmpsf
 
-            time_1=time.process_time_ns()
+            time_1=time.time()
             if enable_alg1 == 1:
                 # 基于算法1的最优搜索算法，设计的多SD Pair路由算法
-                path1,th1,fi1,d1,con1,sumt1=MQpath().alg4(copy.deepcopy(newg),sdset,fiset,reqset,alpha,beta)
-                print('time of alg4 :',time.process_time_ns()-time_1,'\n')
-                time_1_total += time.process_time_ns() - time_1
-                tmpsf1=0
-                tmpsc1=0
-                tmp_count=0
-                for a in range(len(con1)):#计算总消耗纠缠数、计算总f
+                path1, th1, fi1, d1, con1, sumt1 = MQpath().alg4(copy.deepcopy(newg), sdset, fiset, reqset,alpha,beta)
+                print('time of alg4 :', time.time() - time_1, '\n')
+                time1[j] += time.time() - time_1
+                tmpsf1 = 0
+                tmpsc1 = 0
+                tmp_count = 0
+                tmp_pathlen = 0
+                tmp_percon = 0
+                for a in range(len(con1)):  # 计算总消耗纠缠数、计算总f
                     for b in range(len(con1[a])):
-                        for c in con1[a][b]:
-                            tmpsc1+=c
-                        if fi1[a][b]>0:
-                            tmp_count+=1
-                            tmpsf1+=fi1[a][b]
-                #计算平均f
-                if tmp_count>0:
-                    tmpsf1=tmpsf1/tmp_count
-                if tmpsf1>0:
-                    stpalg1[j]+=sumt1
-                    consualg1[j]+=tmpsc1
-                    avefalg1[j]+=tmpsf1
-            time_2=time.process_time_ns()
+                        for c in range(len(con1[a][b])):
+                            tmpsc1 += con1[a][b][c]
+                            tmp_percon += d1[a][b][c]+1
+                        if fi1[a][b] > 0:
+                            tmp_count += 1
+                            tmpsf1 += fi1[a][b]
+                            tmp_pathlen += len(path1[a][b])-1
+                # 计算平均f
+                if tmp_count > 0:
+                    tmpsf1 = tmpsf1 / tmp_count
+                    avepathlengthalg1[j] += tmp_pathlen / tmp_count
+                    aveperconalg1[j] += tmp_percon / tmp_count
+                if tmpsf1 > 0:
+                    stpalg1[j] += sumt1
+                    consualg1[j] += tmpsc1
+                    avefalg1[j] += tmpsf1
+            time_2=time.time()
             if enable_alg2 == 1:
                 # 基于算法2的最优搜索算法，设计的多SD Pair路由算法
-                path2,th2,fi2,d2,con2,sumt2=MQleap().alg3(copy.deepcopy(newg),sdset,fiset,reqset,alpha,beta)
-                print('time of alg3 :',time.process_time_ns()-time_2,'\n')
-                time_2_total += time.process_time_ns()-time_2
-                tmpsf2=0
-                tmpsc2=0
-                tmp_count=0
-                for a in range(len(con2)):#计算总消耗纠缠数、计算总fi
+                path2, th2, fi2, d2, con2, sumt2 = MQleap().alg3(copy.deepcopy(newg), sdset, fiset, reqset,alpha,beta)
+                print('time of alg3 :', time.time() - time_2, '\n')
+                time2[j] += time.time() - time_2
+                tmpsf2 = 0
+                tmpsc2 = 0
+                tmp_count = 0
+                tmp_pathlen = 0
+                tmp_percon = 0
+                for a in range(len(con2)):  # 计算总消耗纠缠数、计算总fi
                     for b in range(len(con2[a])):
-                        for c in con2[a][b]:
-                            tmpsc2+=c
-                        if fi2[a][b]>0:
-                            tmp_count+=1
-                            tmpsf2+=fi2[a][b]
-                #计算平均f
-                if tmp_count>0:
-                    tmpsf2=tmpsf2/tmp_count
-                if tmpsf2>0:
-                    stpalg2[j]+=sumt2
-                    consualg2[j]+=tmpsc2
-                    avefalg2[j]+=tmpsf2
+                        for c in range(len(con2[a][b])):
+                            tmpsc2 += con2[a][b][c]
+                            tmp_percon += d2[a][b][c]+1
+                        if fi2[a][b] > 0:
+                            tmp_count += 1
+                            tmpsf2 += fi2[a][b]
+                            tmp_pathlen += len(path2[a][b])-1
+                # 计算平均f
+                if tmp_count > 0:
+                    tmpsf2 = tmpsf2 / tmp_count
+                    avepathlengthalg2[j] += tmp_pathlen / tmp_count
+                    aveperconalg2[j] += tmp_percon / tmp_count
+                if tmpsf2 > 0:
+                    stpalg2[j] += sumt2
+                    consualg2[j] += tmpsc2
+                    avefalg2[j] += tmpsf2
     
     for i in range(len(x)):
-        stphspf[i]/=count
-        stpalg1[i]/=count
-        stpalg2[i]/=count
-        avefhopcount[i]/=count
-        avefalg1[i]/=count
-        avefalg2[i]/=count
-        consuhopcount[i]/=count
-        consualg1[i]/=count
-        consualg2[i]/=count
-        fp.write(str(x[i])+'    '+str(stphspf[i])+'    '+str(stpalg1[i])+'    '+str(stpalg2[i])+'    '+str(avefhopcount[i])+'    '+str(avefalg1[i])+'    '+str(avefalg2[i])+'    '+str(consuhopcount[i])+'    '+str(consualg1[i])+'    '+str(consualg2[i])+'\n')
-    print("avg time: "+str(time_2_total/1000000/count))
+        stphspf[i] /= count
+        stpalg1[i] /= count
+        stpalg2[i] /= count
+        avefhopcount[i] /= count
+        avefalg1[i] /= count
+        avefalg2[i] /= count
+        consuhopcount[i] /= count
+        consualg1[i] /= count
+        consualg2[i] /= count
+        avepathlengthhopcount[i] /= count
+        avepathlengthalg1[i] /= count
+        avepathlengthalg2[i] /= count
+        aveperconhopcount[i] /= count
+        aveperconalg1[i] /= count
+        aveperconalg2[i] /= count
+        fp.write(str(x[i]) + '    ' + str(stphspf[i]) + '    ' + str(stpalg1[i]) + '    ' + str(stpalg2[i]) + '    ' + 
+                 str(avefhopcount[i]) + '    ' + str(avefalg1[i]) + '    ' + str(avefalg2[i]) + '    ' + 
+                 str(consuhopcount[i]) + '    ' + str(consualg1[i]) + '    ' + str(consualg2[i]) + '    ' + 
+                 str(avepathlengthhopcount[i]) + '    ' + str(avepathlengthalg1[i]) + '    ' + str(avepathlengthalg2[i]) + '    ' + 
+                 str(aveperconhopcount[i]) + '    ' + str(aveperconalg1[i]) + '    ' + str(aveperconalg2[i]) + '    ' + 
+                 str(timeh[i]) + '    ' + str(time1[i]) + '    ' + str(time2[i]) + '\n')
+    
     fp.close()
     fig = plt.figure()
     plt.plot(x,stphspf,color='red')
