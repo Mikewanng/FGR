@@ -37,7 +37,7 @@ def SingleSdFth(count=10,x=np.arange(0.55,0.95,0.05),topology_fidelity_mode=0,nr
     random_topology_mode=0
     random_topology_nodes_num =5
     """
-    enable_Hspf=1#基于跳数的
+    enable_Hspf=0#基于跳数的
     enable_alg1=1
     enable_alg2=1
     start_time=time.time()
