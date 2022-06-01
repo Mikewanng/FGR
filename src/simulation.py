@@ -38,7 +38,7 @@ if sim2==1:
 	s2_random_topology_mode=0 #0代表每次生成随机的，1代表读取文件中的拓扑
 	s2_random_topology_nodes_num =5 #随机拓扑节点数量
 if sim3==1:
-	s3_count=1000 #运行次数
+	s3_count=1 #运行次数
 	s3_x=np.arange(0.55,0.95,0.05) #fth区间
 	s3_sumreq=200 #总需求
 	s3_link_capacity=50 #链路容量设置
