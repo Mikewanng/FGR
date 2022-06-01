@@ -38,18 +38,18 @@ if sim2==1:
 	s2_random_topology_mode=0 #0代表每次生成随机的，1代表读取文件中的拓扑
 	s2_random_topology_nodes_num =5 #随机拓扑节点数量
 if sim3==1:
-	s3_count=1 #运行次数
-	s3_x=np.arange(0.55,0.95,0.05) #fth区间
-	s3_sumreq=200 #总需求
-	s3_link_capacity=50 #链路容量设置
-	s3_norfSD_Pair=4 #SD对数量
+	s3_count=1000 #运行次数
+	s3_x=np.arange(0.7,0.71,0.05) #fth区间
+	s3_sumreq=10 #总需求
+	s3_link_capacity=1 #链路容量设置
+	s3_norfSD_Pair=10 #SD对数量
 	s3_topology_fidelity_mode=1 #模式0代表重新生成，模式1代表读取之前保存的链路保真度数值
-	s3_read_random_SDpair=0 #是否通过读取SDpair对，以保证仿真的一致性
+	s3_read_random_SDpair=1 #是否通过读取SDpair对，以保证仿真的一致性
 	s3_random_topology = 0 # 随机拓扑设置，1代表开启
 	s3_random_topology_mode=0 #0代表每次生成随机的，1代表读取文件中的拓扑
 	s3_random_topology_nodes_num =5 #随机拓扑节点数量
-	s3_alpha=0.5
-	s3_beta=0.5
+	s3_alpha=1/(122*2)
+	s3_beta=0#-10/(122*s3_link_capacity)
 if sim4==1:
 	s4_count=1000 #运行次数
 	s4_x=np.arange(10,91,10) #链路容量区间

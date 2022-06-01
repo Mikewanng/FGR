@@ -227,7 +227,7 @@ def MultiSdFth(count=1,x = np.arange(0.55, 0.95, 0.05),sumreq = 400,link_capacit
                 label = 0
                 read_count = 0
                 for line in Multiple_SDpair_record.readlines():
-                    if line.startswith("record" + str(200+i)):
+                    if line.startswith("record" + str(i)):
                         label = 1
                         continue
                     if label == 1:
