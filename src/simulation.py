@@ -15,9 +15,9 @@ from t6 import *
 sim1=0
 sim2=0
 sim3=0
-sim4=0
+sim4=1
 sim5=0
-sim6=1
+sim6=0
 #参数设置
 if sim1==1:
 	s1_count=1000 #运行次数
@@ -41,24 +41,26 @@ if sim2==1:
 	s2_random_topology_mode=0 #0代表每次生成随机的，1代表读取文件中的拓扑
 	s2_random_topology_nodes_num =5 #随机拓扑节点数量
 if sim3==1:
-	s3_count=1000 #运行次数
-	s3_x=np.arange(0.7,0.71,0.05) #fth区间
-	s3_sumreq=10 #总需求
-	s3_link_capacity=1 #链路容量设置
-	s3_norfSD_Pair=10 #SD对数量
+	s3_count=1 #运行次数
+	s3_x=np.arange(0.7,0.9,0.05) #fth区间
+	s3_sumreq=100 #总需求
+	s3_link_capacity=10 #链路容量设置
+	s3_norfSD_Pair=4 #SD对数量
+	s3_pathselection=1 #路径分配资源顺序，0表示按照自由度，1表示随机。
 	s3_topology_fidelity_mode=1 #模式0代表重新生成，模式1代表读取之前保存的链路保真度数值
-	s3_read_random_SDpair=1 #是否通过读取SDpair对，以保证仿真的一致性
+	s3_read_random_SDpair=0 #是否通过读取SDpair对，以保证仿真的一致性
 	s3_random_topology = 0 # 随机拓扑设置，1代表开启
 	s3_random_topology_mode=0 #0代表每次生成随机的，1代表读取文件中的拓扑
 	s3_random_topology_nodes_num =5 #随机拓扑节点数量
 	s3_alpha=1/(122*2)
 	s3_beta=0#-10/(122*s3_link_capacity)
 if sim4==1:
-	s4_count=1000 #运行次数
+	s4_count=1 #运行次数
 	s4_x=np.arange(10,91,10) #链路容量区间
 	s4_sumreq=200 #总需求
 	s4_req_fth=0.7 #请求fth设置
 	s4_norfSD_Pair=4 #SD对数量
+	s4_pathselection=1 #路径分配资源顺序，0表示按照自由度，1表示随机。
 	s4_topology_fidelity_mode=1 #模式0代表重新生成，模式1代表读取之前保存的链路保真度数值
 	s4_read_random_SDpair=0 #是否通过读取SDpair对，以保证仿真的一致性
 	s4_random_topology = 0 # 随机拓扑设置，1代表开启
@@ -83,6 +85,7 @@ if sim6==1:
 	s6_sumreq=4 #总需求
 	s6_link_capacity=10 #链路容量设置
 	s6_norfSD_Pair=4 #SD对数量
+	s6_pathselection=0 #路径分配资源顺序，0表示按照自由度，1表示随机。
 	SDselection = 1 #选择选项，1代表同源sd,0表示不同源sd
 	s6_topology_fidelity_mode=1 #模式0代表重新生成，模式1代表读取之前保存的链路保真度数值
 	s6_read_random_SDpair=0 #是否通过读取SDpair对，以保证仿真的一致性
@@ -98,10 +101,10 @@ if sim1==1:
 if sim2==1:
 	SingleSdC(s2_count,s2_x,s2_topology_fidelity_mode,s2_nrof_requests,s2_alg1_mode,s2_req_fth,s2_random_topology,s2_random_topology_mode,s2_random_topology_nodes_num)
 if sim3==1:
-	MultiSdFth(s3_count,s3_x,s3_sumreq,s3_link_capacity,s3_norfSD_Pair,s3_topology_fidelity_mode,s3_read_random_SDpair,s3_random_topology,s3_random_topology_mode,s3_random_topology_nodes_num,s3_alpha,s3_beta)
+	MultiSdFth(s3_count,s3_x,s3_sumreq,s3_link_capacity,s3_norfSD_Pair,s3_topology_fidelity_mode,s3_read_random_SDpair,s3_random_topology,s3_random_topology_mode,s3_random_topology_nodes_num,s3_alpha,s3_beta,s3_pathselection)
 if sim4==1:
-	MultiSdC(s4_count,s4_x,s4_sumreq,s4_req_fth,s4_norfSD_Pair,s4_topology_fidelity_mode,s4_read_random_SDpair,s4_random_topology,s4_random_topology_mode,s4_random_topology_nodes_num,s4_alpha,s4_beta)
+	MultiSdC(s4_count,s4_x,s4_sumreq,s4_req_fth,s4_norfSD_Pair,s4_topology_fidelity_mode,s4_read_random_SDpair,s4_random_topology,s4_random_topology_mode,s4_random_topology_nodes_num,s4_alpha,s4_beta,s4_pathselection)
 if sim5==1:
 	Sd(s5_count,s5_x,s5_topology_fidelity_mode,s5_fth,s5_sumreq,s5_link_capacity,s5_save_mode,s5_read_mode,s5_alpha,s5_beta)
 if sim6==1:
-	MultiSdSecFth(s6_count,s6_x,s6_sumreq,s6_link_capacity,s6_norfSD_Pair,SDselection,s6_topology_fidelity_mode,s6_read_random_SDpair,s6_random_topology,s6_random_topology_mode,s6_random_topology_nodes_num,s6_alpha,s6_beta)
+	MultiSdSecFth(s6_count,s6_x,s6_sumreq,s6_link_capacity,s6_norfSD_Pair,SDselection,s6_topology_fidelity_mode,s6_read_random_SDpair,s6_random_topology,s6_random_topology_mode,s6_random_topology_nodes_num,s6_alpha,s6_beta,s6_pathselection)

@@ -14,7 +14,7 @@ import networkx as nx
 
 # 算法变量设置
 # 总仿真次数
-def MultiSdFth(count=1,x = np.arange(0.55, 0.95, 0.05),sumreq = 400,link_capacity = 50,norfSD_Pair = 4,topology_fidelity_mode = 0,read_random_SDpair=0,random_topology = 0,random_topology_mode=0,random_topology_nodes_num = 10,alpha=0,beta=1):
+def MultiSdFth(count=1,x = np.arange(0.55, 0.95, 0.05),sumreq = 400,link_capacity = 50,norfSD_Pair = 4,topology_fidelity_mode = 0,read_random_SDpair=0,random_topology = 0,random_topology_mode=0,random_topology_nodes_num = 10,alpha=0,beta=1,pathselect=0):
     """
     count = 1
     #本次仿真中启用的对比算法
@@ -272,7 +272,7 @@ def MultiSdFth(count=1,x = np.arange(0.55, 0.95, 0.05),sumreq = 400,link_capacit
 
             time_1 = time.time()
             if enable_alg1 == 1:
-                path1, th1, fi1, d1, con1, sumt1 = MQpath().alg4(copy.deepcopy(g), sdset, fiset, reqset,alpha,beta)
+                path1, th1, fi1, d1, con1, sumt1 = MQpath().alg4(copy.deepcopy(g), sdset, fiset, reqset,alpha,beta,pathselect)
                 print('time of alg4 :', time.time() - time_1, '\n')
                 time1[j] += time.time() - time_1
                 tmpsf1 = 0
@@ -301,7 +301,7 @@ def MultiSdFth(count=1,x = np.arange(0.55, 0.95, 0.05),sumreq = 400,link_capacit
 
             time_2 = time.time()
             if enable_alg2 == 1:
-                path2, th2, fi2, d2, con2, sumt2 = MQleap().alg3(copy.deepcopy(g), sdset, fiset, reqset,alpha,beta)
+                path2, th2, fi2, d2, con2, sumt2 = MQleap().alg3(copy.deepcopy(g), sdset, fiset, reqset,alpha,beta,pathselect)
                 print('time of alg3 :', time.time() - time_2, '\n')
                 time2[j] += time.time() - time_2
                 tmpsf2 = 0

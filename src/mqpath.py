@@ -4,7 +4,7 @@ from patharrange import *
 from pathfd import *
 from queue import PriorityQueue
 import sys
-import copy
+import copy,random
 #基于算法1的最优搜索算法，设计的多SD Pair路由算法
 class MQpath:
     def __init__(self):
@@ -17,7 +17,7 @@ class MQpath:
         self.sdth=[] #各sd对的吞吐量
         self.sumt=0 #网络总吞吐量
         self.q=PriorityQueue()
-    def alg4(self,network,sdset,fthset,reqset,alpha=0,beta=1):
+    def alg4(self,network,sdset,fthset,reqset,alpha=0,beta=1,pathselect=0):
         self.network=network
         """vnetwork=Vtopo().creatbasicvtopo(network)  #预处理拓扑，转换为合适的格式
         newnetwork=Vtopo().creatvtopo(vnetwork)"""
@@ -49,7 +49,17 @@ class MQpath:
             for p in range(len(pathset)):
                 self.q.put((uti[p],[[sdset[i][0],sdset[i][1],fthset[i],reqset[i]],pathset[p],conset[p],thset[p],dset[p],fiset[p]]))
         while not self.q.empty():
-            cur=self.q.get()[1]
+            if pathselect==0:
+                cur=self.q.get()[1]
+            else:
+                tmpq=[]
+                randompath=random.randint(1,len(self.q.queue))
+                for i in range(randompath-1):
+                    tmpq.append(self.q.get())
+                cur=self.q.get()[1]
+                for i in tmpq:
+                    self.q.put(i)
+                
             #资源分配
             #判断当前路径资源是否充足
             if Udtp().preudtppathc(network,cur[1],cur[2]):

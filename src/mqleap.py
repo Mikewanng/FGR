@@ -17,7 +17,7 @@ class MQleap:
         self.con=[]#储存纠缠消耗数
         self.sumt=0 #网络总吞吐量
         self.q=PriorityQueue()
-    def alg3(self,network,sdset,fthset,reqset,alpha=0,beta=1):
+    def alg3(self,network,sdset,fthset,reqset,alpha=0,beta=1,pathselect=0):
         self.network=network
         """vnetwork=Vtopo().creatbasicvtopo(network)  #预处理拓扑，转换为合适的格式
         newnetwork=Vtopo().creatvtopo(vnetwork)"""
@@ -55,7 +55,16 @@ class MQleap:
         #while not self.q.empty() & iteration_count<iteration_upperBound:
         while not self.q.empty():
         #    iteration_count += 1
-            cur=self.q.get()[1]
+            if pathselect==0:
+                cur=self.q.get()[1]
+            else:
+                tmpq=[]
+                randompath=random.randint(1,len(self.q.queue))
+                for i in range(randompath-1):
+                    tmpq.append(self.q.get())
+                cur=self.q.get()[1]
+                for i in tmpq:
+                    self.q.put(i)
             #资源分配
             #判断当前路径资源是否充足
             if Udtp().preudtppathc(network,cur[1],cur[2]):
