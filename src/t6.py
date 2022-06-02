@@ -14,7 +14,7 @@ import networkx as nx
 #两个子集SD选择
 # 算法变量设置
 # 总仿真次数
-def MultiSdFth(count=1,x = np.arange(0.55, 0.95, 0.05),sumreq = 400,link_capacity = 50,norfSD_Pair = 4,SDselection = 1,topology_fidelity_mode = 0,read_random_SDpair=0,random_topology = 0,random_topology_mode=0,random_topology_nodes_num = 10,alpha=0,beta=1):
+def MultiSdSecFth(count=1,x = np.arange(0.55, 0.95, 0.05),sumreq = 400,link_capacity = 50,norfSD_Pair = 4,SDselection = 1,topology_fidelity_mode = 0,read_random_SDpair=0,random_topology = 0,random_topology_mode=0,random_topology_nodes_num = 10,alpha=0,beta=1):
     """
     count = 1
     #本次仿真中启用的对比算法
