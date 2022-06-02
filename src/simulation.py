@@ -9,7 +9,7 @@ from t6 import *
 #simulation3 : fth作为自变量，多sd
 #simulation4 : c作为自变量，多sd
 #simulation5 : sd数作为自变量
-#simulation6 : 特定sd选择
+#simulation6 : 共享瓶颈sd选择
 
 #仿真运行选择,0为不运行。
 sim1=0
